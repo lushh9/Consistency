@@ -1,0 +1,2 @@
+curl -H "Authorization: Bearer 1//04SEBRpLYNILbCgYIARAAGAQSNwF-L9Irzx7TjgMcSH8pcfKbp7-HV3_CO6LKEUSA6QFKjXU7braWnngJ4E8eV-C0BI2Elsp31Q8" https://www.googleapis.com/drive/v3/files/1YNOEYXSfSeanekljfwOQknHuyGtw0_k2?alt=media -o disparity.zip
+

@@ -1,2 +1,1 @@
-curl -H "Authorization: Bearer 1//04SEBRpLYNILbCgYIARAAGAQSNwF-L9Irzx7TjgMcSH8pcfKbp7-HV3_CO6LKEUSA6QFKjXU7braWnngJ4E8eV-C0BI2Elsp31Q8" https://www.googleapis.com/drive/v3/files/1YNOEYXSfSeanekljfwOQknHuyGtw0_k2?alt=media -o disparity.zip
-
+curl -H "Authorization: Bearer 1//04Z8ONBGMlcnYCgYIARAAGAQSNwF-L9Ir313LG_G-BXWgyGTI7VM7T0YqG7xa8kl35ee_C5WOV9i6S98XRXVMu-2k4L-1ZXB1pGc" https://www.googleapis.com/drive/v3/files/1YNOEYXSfSeanekljfwOQknHuyGtw0_k2?alt=media -o disparity.zip

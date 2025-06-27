@@ -495,8 +495,8 @@ def main(cfg):
         active_train_loader = train_loader
 
         model.train()
-        model.freeze_bn()
-        # model.module.freeze_bn()
+        #model.freeze_bn()
+        model.module.freeze_bn()
 
         train_sampler.set_epoch(epoch)
 
@@ -697,8 +697,8 @@ def main(cfg):
                 print("Validation Scene Flow: %f, %f, %f" % (epe, d1, pearson_avg))
 
                 model.train()
-                model.freeze_bn()
-                # model.module.freeze_bn()
+                #model.freeze_bn()
+                model.module.freeze_bn()
 
             if total_step == cfg.total_step:
                 should_keep_training = False

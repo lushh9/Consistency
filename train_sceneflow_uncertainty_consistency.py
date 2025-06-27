@@ -488,15 +488,15 @@ def main(cfg):
     epoch = 0
     should_keep_training = True
 
-    path = '/data2/lsh_checkpoints/monster_sceneflow/v0/'
+    path = './checkpoints/sceneflow/consistency1/'
     threshold = 0.15
 
     while should_keep_training:
         active_train_loader = train_loader
 
         model.train()
-        #model.freeze_bn()
-        model.module.freeze_bn()
+        model.freeze_bn()
+        #model.module.freeze_bn()
 
         train_sampler.set_epoch(epoch)
 
@@ -509,7 +509,7 @@ def main(cfg):
 
             model.train()
             model.freeze_bn()
-            # model.module.freeze_bn()
+            #model.module.freeze_bn()
 
             left = data1['img1']
             right = data1['img2']
@@ -649,7 +649,7 @@ def main(cfg):
                             conf_inf = torch.isinf(conf[i]).sum().item()
 
                             # 写入调试日志
-                            with open('/data2/lsh_checkpoints/monster_sceneflow/v0/pearson_debug.txt',
+                            with open('./checkpoints/sceneflow/consistency1/pearson_debug.txt',
                                       'a') as log_file1:
                                 log_file1.write(f"count: {count}\n")
                                 if mask[i].bool().sum() == 0:
@@ -689,7 +689,7 @@ def main(cfg):
                 d1 = 100 * np.mean(out_list)
                 pearson_avg = np.mean(pearson_list)
 
-                with open('/data2/lsh_checkpoints/monster_sceneflow/v0/test_sceneflow.txt', 'a') as log_file2:
+                with open('./checkpoints/sceneflow/consistency1/test_sceneflow.txt', 'a') as log_file2:
                     log_file2.write(f"Validation Scene Flow: {epe}, {d1}, {pearson_avg}\n")
 
                 # print("Validation Scene Flow: %f, %f" % (epe, d1))
@@ -697,8 +697,8 @@ def main(cfg):
                 print("Validation Scene Flow: %f, %f, %f" % (epe, d1, pearson_avg))
 
                 model.train()
-                #model.freeze_bn()
-                model.module.freeze_bn()
+                model.freeze_bn()
+                #model.module.freeze_bn()
 
             if total_step == cfg.total_step:
                 should_keep_training = False

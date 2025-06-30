@@ -500,8 +500,10 @@ def main(cfg):
         active_train_loader = train_loader
 
         model.train()
-        model.freeze_bn()
-        #model.module.freeze_bn()
+        if cfg.num_gpu == 1:
+            model.freeze_bn()
+        else:
+            model.module.freeze_bn()
 
         train_sampler.set_epoch(epoch)
 
@@ -512,8 +514,10 @@ def main(cfg):
         for data1, data2 in tqdm(zip(active_train_loader, whole_loader), dynamic_ncols=True, disable=not accelerator.is_main_process):
 
             model.train()
-            model.freeze_bn()
-            #model.module.freeze_bn()
+            if cfg.num_gpu == 1:
+                model.freeze_bn()
+            else:
+                model.module.freeze_bn()
 
             left = data1['img1']
             right = data1['img2']

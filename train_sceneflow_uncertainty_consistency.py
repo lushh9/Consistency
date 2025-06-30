@@ -715,5 +715,5 @@ def main(cfg):
     accelerator.end_training()
 
 if __name__ == '__main__':
-    torch.autograd.set_detect_anomaly(True)
+    #torch.autograd.set_detect_anomaly(True)
     main()

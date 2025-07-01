@@ -482,12 +482,12 @@ def main(cfg):
     train_loader, whole_loader, model, optimizer, lr_scheduler, val_loader = accelerator.prepare(train_loader, whole_loader, model, optimizer, lr_scheduler, val_loader)
     model.to(accelerator.device)
 
-    '''for sample1, sample2 in zip(train_loader, whole_loader):
+    for sample1, sample2 in zip(train_loader, whole_loader):
         print(sample1["img1"].shape)
         print(sample2["img1"].shape)
         print('train_loader:', sample1["img1_path"])
         print('whole_loader:', sample2["img1_path"])
-        break'''
+        break
 
     total_step = 0
     epoch = 0

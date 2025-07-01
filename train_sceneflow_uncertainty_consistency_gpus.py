@@ -25,6 +25,7 @@ import gc
 from pathlib import Path
 from scipy.stats import pearsonr
 from filelock import FileLock
+from torch.utils.data import Sampler
 
 def gray_2_colormap_np(img, cmap = 'rainbow', max = None):
     img = img.cpu().detach().numpy().squeeze()
@@ -442,6 +443,24 @@ def pearson_correlation_coefficient(confidence, predicted_disp, true_disp):
     
     return avg_r
 
+class EpochRandomSampler(Sampler):
+    def __init__(self, data_source, generator=None):
+        self.data_source = data_source
+        self.generator = generator if generator is not None else torch.Generator()
+        self.epoch = 0
+
+    def set_epoch(self, epoch):
+        self.epoch = epoch
+
+    def __iter__(self):
+        g = torch.Generator(device="cpu")
+        g.manual_seed(self.epoch)
+        indices = torch.randperm(len(self.data_source), generator=g).tolist()
+        return iter(indices)
+
+    def __len__(self):
+        return len(self.data_source)
+
 @hydra.main(version_base=None, config_path='config', config_name='train_sceneflow_gpus')
 def main(cfg):
     set_seed(cfg.seed)
@@ -459,14 +478,21 @@ def main(cfg):
     cfg.whole_dataset = True
     cfg.sampler = True
     whole_dataset, train_sampler = datasets.fetch_dataloader(cfg)
-    whole_loader = torch.utils.data.DataLoader(whole_dataset, batch_size=cfg.batch_size//cfg.num_gpu,
-        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=train_sampler)
+    '''whole_loader = torch.utils.data.DataLoader(whole_dataset, batch_size=cfg.batch_size//cfg.num_gpu,
+        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=train_sampler)'''
     cfg.whole_dataset = False
     cfg.sampler = False
 
     train_dataset = datasets.fetch_dataloader(cfg)
+    '''train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=cfg.batch_size//cfg.num_gpu,
+        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=train_sampler)'''
+
+    # 
+    sampler = EpochRandomSampler(train_dataset)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=cfg.batch_size//cfg.num_gpu,
-        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=train_sampler)
+        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=sampler)
+    whole_loader = torch.utils.data.DataLoader(whole_dataset, batch_size=cfg.batch_size//cfg.num_gpu,
+        pin_memory=True, shuffle=False, num_workers=int(4), drop_last=True, sampler=sampler)
 
     aug_params = {}
     val_dataset = datasets.SceneFlowDatasets(dstype='frames_finalpass', things_test=True)

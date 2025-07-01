@@ -541,7 +541,8 @@ def main(cfg):
         else:
             model.module.freeze_bn()
 
-        train_sampler.set_epoch(epoch)
+        #train_sampler.set_epoch(epoch)
+        sampler.set_epoch(epoch)
 
         # 获得每个epoch的一致性
         #if epoch != 0:

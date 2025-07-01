@@ -343,7 +343,8 @@ def constant_for_dataset(model, train_loader, epoch, path, threshold, cfg, accel
                 mask_invalid = 0
                 with lock2:
                     with h5py.File(out_path, 'a') as f2:
-                        print("Keys in file:")
+                        print("keys长度:", len(keys_list))
+                        print("Keys列表:")
                         print(list(f2.keys()))
                         print('地址：', key)
                         if key in f2:

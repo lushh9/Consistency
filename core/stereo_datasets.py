@@ -518,6 +518,7 @@ def fetch_dataloader(args):
     print('train_dataset:', len(train_dataset))
 
     # 返回采样器
+    print('划分个数：', comm.get_world_size())
     if args.sampler:
         train_sampler = data.distributed.DistributedSampler(
             train_dataset,

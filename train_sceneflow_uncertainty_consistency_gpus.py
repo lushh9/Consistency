@@ -493,7 +493,7 @@ def main(cfg):
     epoch = 0
     should_keep_training = True
 
-    path = './checkpoints/sceneflow/consistency1/'
+    path = './checkpoints/sceneflow/consistency2/'
     threshold = 0.15
     
     while should_keep_training:
@@ -655,7 +655,7 @@ def main(cfg):
                             conf_inf = torch.isinf(conf[i]).sum().item()
 
                             # 写入调试日志
-                            with open('./checkpoints/sceneflow/consistency1/pearson_debug.txt', 'a') as log_file1:
+                            with open('./checkpoints/sceneflow/consistency2/pearson_debug.txt', 'a') as log_file1:
                                 log_file1.write(f"count: {count}\n")
                                 if mask[i].bool().sum() == 0:
                                     log_file1.write("  WARNING: mask[i] is all zeros\n")
@@ -694,7 +694,7 @@ def main(cfg):
                 d1 = 100 * np.mean(out_list)
                 pearson_avg = np.mean(pearson_list)
 
-                with open('./checkpoints/sceneflow/consistency1/test_sceneflow.txt', 'a') as log_file2:
+                with open('./checkpoints/sceneflow/consistency2/test_sceneflow.txt', 'a') as log_file2:
                     log_file2.write(f"Validation Scene Flow: {epe}, {d1}, {pearson_avg}\n")
 
                 #print("Validation Scene Flow: %f, %f" % (epe, d1))

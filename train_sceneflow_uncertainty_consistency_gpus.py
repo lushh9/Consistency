@@ -349,8 +349,8 @@ def constant_for_dataset(model, train_loader, epoch, path, threshold, cfg, accel
                                 dataset_keys.append(name)
                         f2.visititems(collect_datasets)
                         print("Keys列表:")
-                        for k in dataset_keys:
-                            print(k)
+                        for i in dataset_keys:
+                            print(i)
                         print("keys长度:", len(dataset_keys))
                         print('地址：', key)
                         if key in f2:

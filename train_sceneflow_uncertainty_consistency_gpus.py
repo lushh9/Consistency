@@ -14,7 +14,7 @@ from accelerate.utils import set_seed
 from accelerate.logging import get_logger
 from accelerate import DataLoaderConfiguration
 from accelerate.utils import DistributedDataParallelKwargs
-os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
+#os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 
 import matplotlib
 import matplotlib.pyplot as plt

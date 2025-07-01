@@ -5,14 +5,14 @@ restore_ckpt: None
 #restore_ckpt: ./pretrained/sceneflow.pth
 logdir: './checkpoints/sceneflow/consistency2/'
 encoder: 'vitl'
-batch_size: 8
+batch_size: 4
 train_datasets: ['sceneflow']
 lr: 2e-4
 wdecay: 1e-5
 total_step: 100000
-save_frequency: 300
+save_frequency: 100
 save_path: ./checkpoints/sceneflow/consistency2/
-val_frequency: 300
+val_frequency: 100
 image_size: [320, 736]
 train_iters: 22
 valid_iters: 32
@@ -28,7 +28,7 @@ saturation_range: [0.7, 1.3]
 do_flip: False
 spatial_scale: [-0.2, 0.5]
 noyjitter: True
-num_gpu: 4
+num_gpu: 2
 seed: 666
 whole_dataset: False
 sampler: False

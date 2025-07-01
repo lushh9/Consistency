@@ -6,4 +6,4 @@ curl -H "Authorization: Bearer ya29.a0AS3H6Nwolln6ClGygNIl3o0khe3hWdbydXOFGm1bZW
 # 单卡
 CUDA_VISIBLE_DEVICES=0 accelerate launch train_sceneflow_uncertainty_consistency.py
 # 多卡
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch train_sceneflow_uncertainty_consistency.py
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch train_sceneflow_uncertainty_consistency_gpus.py

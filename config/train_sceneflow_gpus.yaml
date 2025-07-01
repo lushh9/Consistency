@@ -3,7 +3,7 @@ project_name: sceneflow
 restore_ckpt: None
 #restore_ckpt: ./checkpoints/sceneflow/uncertainty4/80000.pth
 #restore_ckpt: ./pretrained/sceneflow.pth
-logdir: './checkpoints/sceneflow/consistency1/'
+logdir: './checkpoints/sceneflow/consistency2/'
 encoder: 'vitl'
 batch_size: 8
 train_datasets: ['sceneflow']
@@ -11,7 +11,7 @@ lr: 2e-4
 wdecay: 1e-5
 total_step: 100000
 save_frequency: 300
-save_path: ./checkpoints/sceneflow/consistency1/
+save_path: ./checkpoints/sceneflow/consistency2/
 val_frequency: 300
 image_size: [320, 736]
 train_iters: 22

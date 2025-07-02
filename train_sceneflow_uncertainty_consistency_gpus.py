@@ -344,16 +344,16 @@ def constant_for_dataset(model, train_loader, epoch, path, threshold, cfg, accel
                 mask_invalid = 0
                 with lock2:
                     with h5py.File(out_path, 'a') as f2:
-                        dataset_keys = []
-                        def collect_datasets(name, obj):
-                            if isinstance(obj, h5py.Dataset):
-                                dataset_keys.append(name)
-                        f2.visititems(collect_datasets)
-                        print("Keys列表:")
-                        for i in dataset_keys:
-                            print(i)
-                        print("keys长度:", len(dataset_keys))
-                        print('地址：', key)
+                        # dataset_keys = []
+                        # def collect_datasets(name, obj):
+                        #     if isinstance(obj, h5py.Dataset):
+                        #         dataset_keys.append(name)
+                        # f2.visititems(collect_datasets)
+                        # print("Keys列表:")
+                        # for i in dataset_keys:
+                        #     print(i)
+                        # print("keys长度:", len(dataset_keys))
+                        # print('地址：', key)
                         if key in f2:
                             f2_temp = f2[sample["img1_path"][k]][()]
                             del f2[key]
@@ -641,7 +641,12 @@ def main(cfg):
                 if accelerator.is_main_process:
                     save_path = Path(cfg.save_path + '/%d.pth' % (total_step + 1))
                     model_save = accelerator.unwrap_model(model)
-                    torch.save(model_save.state_dict(), save_path)
+                    #torch.save(model_save.state_dict(), save_path)
+                    torch.save({
+                            "state_dict": model_save.state_dict(),
+                            "optimizer": optimizer.state_dict(),
+                            "scheduler": lr_scheduler.state_dict()
+                            }, save_path)
                     del model_save
         
             if (total_step > 0) and (total_step % cfg.val_frequency == cfg.val_frequency - 1):
@@ -750,7 +755,12 @@ def main(cfg):
     if accelerator.is_main_process:
         save_path = Path(cfg.save_path + '/final.pth')
         model_save = accelerator.unwrap_model(model)
-        torch.save(model_save.state_dict(), save_path)
+        #torch.save(model_save.state_dict(), save_path)
+        torch.save({
+                "state_dict": model_save.state_dict(),
+                "optimizer": optimizer.state_dict(),
+                "scheduler": lr_scheduler.state_dict()
+                }, save_path)
         del model_save
     
     accelerator.end_training()

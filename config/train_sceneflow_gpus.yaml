@@ -9,10 +9,10 @@ batch_size: 16
 train_datasets: ['sceneflow']
 lr: 2e-4
 wdecay: 1e-5
-total_step: 100000
-save_frequency: 100
+total_step: 150000
+save_frequency: 10000
 save_path: ./checkpoints/sceneflow/consistency2/
-val_frequency: 100
+val_frequency: 30000
 image_size: [320, 736]
 train_iters: 22
 valid_iters: 32

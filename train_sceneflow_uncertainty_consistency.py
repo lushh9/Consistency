@@ -190,7 +190,7 @@ def CRL_loss_base(con, score, iter_i):
 
 # 获得训练一致性和最大softmax输出，将其输入到CRL_loss_base函数中计算loss
 def rank_loss_function_constant(model, sample, path, cfg, accelerator):
-    #model.eval()
+    model.eval()
     #model.train()
     #model.freeze_bn()
     #model.module.freeze_bn()
@@ -206,9 +206,9 @@ def rank_loss_function_constant(model, sample, path, cfg, accelerator):
     mask = mask.squeeze(1)
 
     with accelerator.autocast():
-        disp_init_pred, disp_preds, depth_mono, confidence = model(img1, img2, iters=cfg.train_iters)
+        disp_pr, confidence = model(img1, img2, iters=cfg.valid_iters, test_mode=True)
 
-    disp_pr = padder.unpad(disp_preds[-1])
+    disp_pr = padder.unpad(disp_pr)
     confidence['la'] = padder.unpad(confidence['la'])
     confidence['alpha'] = padder.unpad(confidence['alpha'])
     confidence['beta'] = padder.unpad(confidence['beta'])
@@ -496,7 +496,7 @@ def main(cfg):
     path = './checkpoints/sceneflow/consistency1/'
     threshold = 0.15
     
-    while should_keep_training:
+    while epoch != 10:
         active_train_loader = train_loader
 
         model.train()
@@ -600,7 +600,7 @@ def main(cfg):
                 accelerator.log({"disp_gt": wandb.Image(disp_gt_np, caption="step:{}".format(total_step))}, total_step)
                 accelerator.log({"depth_mono": wandb.Image(depth_mono_np, caption="step:{}".format(total_step))}, total_step)
 
-            if (total_step > 0) and (total_step % cfg.save_frequency == cfg.save_frequency - 1):
+            if (total_step > 0) and (total_step % cfg.save_frequency == 0):
                 if accelerator.is_main_process:
                     save_path = Path(cfg.save_path + '/%d.pth' % (total_step + 1))
                     model_save = accelerator.unwrap_model(model)
@@ -612,7 +612,7 @@ def main(cfg):
                             }, save_path)
                     del model_save
         
-            if (total_step > 0) and (total_step % cfg.val_frequency == cfg.val_frequency - 1):
+            if (total_step > 0) and (total_step % cfg.val_frequency == 0):
 
                 model.eval()
                 #elem_num, total_epe, total_out = 0, 0, 0

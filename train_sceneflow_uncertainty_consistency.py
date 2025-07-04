@@ -563,7 +563,7 @@ def main(cfg):
                 constant_loss = torch.tensor(constant_loss, dtype=torch.float16, device=accelerator.device)
 
             if loss.item() != 0.0:
-                loss = loss + uncertainty_loss + constant_loss
+                loss = loss + uncertainty_loss + 5 * constant_loss
 
                 accelerator.backward(loss)
                 accelerator.clip_grad_norm_(model.parameters(), 1.0)

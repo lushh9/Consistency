@@ -513,7 +513,7 @@ def fetch_dataloader(args):
         train_dataset = new_dataset if train_dataset is None else train_dataset + new_dataset
 
     print('train_dataset:', len(train_dataset))
-    subset_indices = list(range(35440))
+    subset_indices = list(range(10))
     train_dataset = data.Subset(train_dataset, subset_indices)
     print('train_dataset:', len(train_dataset))
 

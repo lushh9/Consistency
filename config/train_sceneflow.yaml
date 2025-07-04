@@ -12,7 +12,7 @@ wdecay: 1e-5
 total_step: 400000
 save_frequency: 20
 save_path: ./checkpoints/sceneflow/consistency1/
-val_frequency: 50
+val_frequency: 100
 image_size: [320, 736]
 train_iters: 22
 valid_iters: 32

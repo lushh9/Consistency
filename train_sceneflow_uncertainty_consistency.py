@@ -496,7 +496,7 @@ def main(cfg):
     path = './checkpoints/sceneflow/consistency1/'
     threshold = 0.15
     
-    while epoch != 10:
+    while epoch != 4:
         active_train_loader = train_loader
 
         model.train()

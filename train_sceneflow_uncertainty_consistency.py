@@ -604,7 +604,12 @@ def main(cfg):
                 if accelerator.is_main_process:
                     save_path = Path(cfg.save_path + '/%d.pth' % (total_step + 1))
                     model_save = accelerator.unwrap_model(model)
-                    torch.save(model_save.state_dict(), save_path)
+                    #torch.save(model_save.state_dict(), save_path)
+                    torch.save({
+                            "state_dict": model_save.state_dict(),
+                            "optimizer": optimizer.state_dict(),
+                            "scheduler": lr_scheduler.state_dict()
+                            }, save_path)
                     del model_save
         
             if (total_step > 0) and (total_step % cfg.val_frequency == cfg.val_frequency - 1):
@@ -708,12 +713,29 @@ def main(cfg):
             if total_step == cfg.total_step:
                 should_keep_training = False
                 break
+                
+        if accelerator.is_main_process:
+            save_path = Path(cfg.save_path + '/%d_%d.pth' % (epoch, total_step))
+            model_save = accelerator.unwrap_model(model)
+            #torch.save(model_save.state_dict(), save_path)
+            torch.save({
+                    "state_dict": model_save.state_dict(),
+                    "optimizer": optimizer.state_dict(),
+                    "scheduler": lr_scheduler.state_dict()
+                    }, save_path)
+            del model_save
+        
         epoch += 1
 
     if accelerator.is_main_process:
         save_path = Path(cfg.save_path + '/final.pth')
         model_save = accelerator.unwrap_model(model)
-        torch.save(model_save.state_dict(), save_path)
+        #torch.save(model_save.state_dict(), save_path)
+        torch.save({
+                "state_dict": model_save.state_dict(),
+                "optimizer": optimizer.state_dict(),
+                "scheduler": lr_scheduler.state_dict()
+                }, save_path)
         del model_save
     
     accelerator.end_training()
